@@ -46,7 +46,7 @@ proc init*(_: typedesc[PeviitorAPI], apiKey: string, prod = true): PeviitorAPI =
 
 proc clean*(api: PeviitorAPI, nume_firma: string) {.async.} =
   let http = newAsyncHttpClient(headers = newHttpHeaders({ "Content-Type": "application/x-www-form-urlencoded" }) )
-  let response = await http.request(api.cleanURL, httpMethod = HttpPost, body = nume_firma)
+  discard await http.request(api.cleanURL, httpMethod = HttpPost, body = nume_firma)
   http.close()
 
 proc updateJobs*(api: PeviitorAPI, jobsJson: JsonNode) {.async.} =

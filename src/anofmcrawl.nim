@@ -19,6 +19,7 @@ proc anofmGetJobInfo*(id: int): Future[JsonNode] {.async.} =
   echo "Got job " & $id
   jobInfo   
 
+#[
 func parseAnofmJsonToJobInfoObj(job: JsonNode): JobInfo =
   JobInfo(
     title: job["detalii_lmv"][0]["ocupatie"].getStr(),
@@ -28,7 +29,7 @@ func parseAnofmJsonToJobInfoObj(job: JsonNode): JobInfo =
     country: "Romania",
     validThrough: job["detalii_lmv"][0]["EXPIRATION_DATE"].getStr(),
     remote: JobAttendance.on_site
-    )
+    )]#
 
 func parseAnofmJsonToPeviitorJson(job: JsonNode): JsonNode =
   %* {
@@ -40,8 +41,6 @@ func parseAnofmJsonToPeviitorJson(job: JsonNode): JsonNode =
     "validThrough": job["detalii_lmv"][0]["EXPIRATION_DATE"].getStr(),
     "city": job["detalii_lmv"][0]["ADRESA_LOCALITATEA"].getStr()
   }
-
-func anofmJobUrlFromId(id: int): string {.inline.} = "https://www.anofm.ro/dmxConnect/api/oferte_bos/detalii_lmv_test.php?id_lmv=" & $id 
 
 proc getAllOnfmJobs*(maxReqInFlight: int = 64): Future[seq[JsonNode]] {.async.} =
   let curl = newCurly(maxInFlight = maxReqInFlight)
