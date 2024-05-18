@@ -24,6 +24,9 @@ jobs:
         with:
           nim-version: 'stable'
 
+      - name: Instal dependencies
+        run: nimble install -y
+
       # Runs a set of commands using the runners shell
       - name: Compile
         run: nim compile --run --verbosity:0 src/anofmcrawl.nim
