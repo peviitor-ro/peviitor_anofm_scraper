@@ -36,10 +36,11 @@ func parseAnofmJsonToPeviitorJson(job: JsonNode): JsonNode =
     "job_title": job["detalii_lmv"][0]["ocupatie"].getStr(),
     "job_link": "https://www.anofm.ro/lmvw.html?agentie=ANOFM&categ=3&subcateg=1&id_lmv=" & $job["detalii_lmv"][0]["POSTED_JOBS_ID"].getInt(),
     "company": job["detalii_lmv"][0]["AGENT"].getStr(),
-    "country": "Romania",
+    "country": "România",
     "remote": "on-site",
     "validThrough": job["detalii_lmv"][0]["EXPIRATION_DATE"].getStr(),
-    "city": job["detalii_lmv"][0]["ADRESA_LOCALITATEA"].getStr()
+    "city": job["detalii_lmv"][0]["ADRESA_LOCALITATEA"].getStr(),
+    "sursa": "anofm.ro"
   }
 
 proc getAllOnfmJobs*(maxReqInFlight: int = 64): Future[seq[JsonNode]] {.async.} =

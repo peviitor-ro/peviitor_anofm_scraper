@@ -20,6 +20,7 @@ type JobInfo* = object
   country* = "România"
   city*: string
   validThrough*: string
+  source*: string
   remote*: JobAttendance
 
 func jobObjToJson*(job: JobInfo): JsonNode =
@@ -30,7 +31,8 @@ func jobObjToJson*(job: JobInfo): JsonNode =
     "country": job.country,
     "remote": $job.remote,
     "validThrough": $job.validThrough,
-    "city": $job.city
+    "city": $job.city,
+    "sursa": $job.source
   }
 
 proc init*(_: typedesc[PeviitorAPI], apiKey: string, prod = true): PeviitorAPI =
