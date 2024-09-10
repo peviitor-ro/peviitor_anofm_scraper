@@ -22,9 +22,9 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Setup Nim
-        uses: jiro4989/setup-nim-action@v1
+        uses: iffy/install-nim@v5
         with:
-          nim-version: 'stable'
+          version: 'stable'
 
       - name: Instal dependencies
         run: nimble install -y
