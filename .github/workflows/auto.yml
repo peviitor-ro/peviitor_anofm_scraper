@@ -2,7 +2,7 @@ name: Auto-commit workflow
 
 on: 
   schedule:
-    - cron: '0 0 * * *'  # Runs every day at midnight
+    - cron: '0 0 1,15 * *'  # Runs on the 1st and 15th day of every month at midnight
   workflow_dispatch:    # Allows running the workflow manually from GitHub Actions tab
 
 jobs:
