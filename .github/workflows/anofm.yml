@@ -1,36 +1,42 @@
-name: anofm nim crawler
+name: Clean Data and Run ANOFM Scraper
 
 on:
   push:
+    branches:
+      - main  # You may adjust this according to the branches you use
   schedule:
-    - cron: '30 18 * * *'
-
-  # Allows you to run this workflow manually from the Actions tab
+    - cron: '30 18 * * *'  # Executes daily at 18:30 UTC
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
+  clean_data:
+    name: Clean Data using JMeter
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v4
+      
+      - name: Run JMeter on GitHub Actions
+        uses: sebiboga/run-jmeter-github-action@v0.0.6
+        # Include any required configuration for JMeter action here
+        # with:
+        #   example-input: value
+
+  anofm_scraper:
+    name: ANOFM Scraper
+    needs: clean_data  # Ensures that this job starts only after clean_data job is completed
+    runs-on: ubuntu-latest
+    steps:
       - uses: actions/checkout@v4
 
-      # Runs a single command using the runners shell
       - name: Setup Nim
         uses: iffy/install-nim@v5
         with:
           version: 'stable'
 
-      - name: Instal dependencies
+      - name: Install dependencies
         run: nimble install -y
 
-      # Runs a set of commands using the runners shell
-      - name: Compile
+      - name: Compile and Run
         run: nim compile --run --verbosity:0 src/anofmcrawl.nim
         env:
           API_KEY: ${{ secrets.API_KEY }}
